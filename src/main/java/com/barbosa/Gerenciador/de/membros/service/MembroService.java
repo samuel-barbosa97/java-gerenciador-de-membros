@@ -4,9 +4,12 @@ import com.barbosa.Gerenciador.de.membros.model.Membro;
 import com.barbosa.Gerenciador.de.membros.model.UpdateMembro;
 import com.barbosa.Gerenciador.de.membros.repository.MembroRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -34,4 +37,14 @@ public class MembroService {
     public void deleteMembro(String id) {
         membroRepository.deleteById(id);
     }
+
+    public Membro getMembroById(String id) throws ChangeSetPersister.NotFoundException {
+        Optional<Membro> membroOptional = membroRepository.findById(id);
+        if (membroOptional.isPresent()) {
+            return membroOptional.get();
+        } else {
+            throw new ChangeSetPersister.NotFoundException();
+        }
+    }
+
 }

@@ -9,7 +9,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,7 +26,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -69,6 +73,7 @@ class MembroControllerTest {
                 .andExpect(jsonPath("$.description").value(membroToSave.getDescription()))
                 .andExpect(jsonPath("$.age").value(membroToSave.getAge()));
     }
+
     @Test
     void listMembros() throws Exception {
         mockMvc = MockMvcBuilders.standaloneSetup(membroController).build();
@@ -139,4 +144,43 @@ class MembroControllerTest {
         // Verifica se o serviço foi chamado com o ID correto
         verify(membroService).deleteMembro(memberId);
     }
+
+    @Test
+    void testGetMembroById() throws ChangeSetPersister.NotFoundException {
+        // Mock do serviço
+        Membro membroMock = new Membro();
+        Mockito.when(membroService.getMembroById(anyString())).thenReturn(membroMock);
+
+        // Chamada ao método do controlador
+        ResponseEntity<Membro> responseEntity = membroController.getMembroById("1");
+
+        // Verificações
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(membroMock, responseEntity.getBody());
+    }
+
+    @Test
+    void testGetMembroByIdMembroNotFound() throws ChangeSetPersister.NotFoundException {
+        // Mock do serviço lançando MembroNotFoundException
+        Mockito.when(membroService.getMembroById(anyString())).thenThrow(new ChangeSetPersister.NotFoundException());
+
+        // Chamada ao método do controlador
+        ResponseEntity<Membro> responseEntity = membroController.getMembroById("1");
+
+        // Verificações
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void testGetMembroByIdInternalServerError() throws ChangeSetPersister.NotFoundException {
+        // Mock do serviço lançando uma exceção genérica
+        Mockito.when(membroService.getMembroById(anyString())).thenThrow(new RuntimeException("Erro interno"));
+
+        // Chamada ao método do controlador
+        ResponseEntity<Membro> responseEntity = membroController.getMembroById("1");
+
+        // Verificações
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+    }
 }
+
