@@ -1,85 +1,74 @@
-# API Gerenciador de Membros
+Claro! Vamos atualizar o README com as últimas informações:
 
-Este é um projeto de API simples para um Gerenciador de Membros, desenvolvido com Spring Boot e MongoDB. A API oferece operações básicas para criar, listar, atualizar e excluir membros.
+```markdown
+# Gerenciador de Membros API
 
-## Pré-requisitos
+## Descrição
+Este projeto é uma API para gerenciar membros, fornecendo endpoints para criar, listar, atualizar e excluir membros.
 
-Certifique-se de ter as seguintes ferramentas instaladas antes de começar:
+## Tecnologias Utilizadas
+- Spring Boot
+- MongoDB
+- Swagger
 
-- [Java 11](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
-- [Gradle](https://gradle.org/install/)
-- [Docker](https://www.docker.com/get-started)
+## Configuração do Swagger
+A documentação da API pode ser acessada através do Swagger. Após iniciar a aplicação, acesse `http://localhost:8080/swagger-ui.html` para explorar os endpoints disponíveis.
 
-## Configuração do Projeto
-
-Clone o repositório:
+## Como Rodar o Projeto
+Certifique-se de ter o Java 17 e o MongoDB instalados em sua máquina. Em seguida, execute os seguintes comandos:
 
 ```bash
-git clone https://github.com/seu-usuario/gerenciador-de-membros.git
-cd gerenciador-de-membros
+./gradlew build
+./gradlew bootRun
 ```
 
-## Executando a API Localmente
+A aplicação estará disponível em `http://localhost:8080`.
 
-1. **Construir o Projeto:**
+## Endpoints
+- **GET /membros**: Lista todos os membros.
+- **GET /membros/{id}**: Obtém um membro pelo ID.
+- **POST /membros**: Cria um novo membro.
+- **PUT /membros/{id}**: Atualiza um membro existente.
+- **DELETE /membros/{id}**: Exclui um membro pelo ID.
 
-   ```bash
-   ./gradlew build
-   ```
+## Exemplos de Requisições
 
-2. **Executar o Contêiner Docker:**
+### GET /membros
+Retorna a lista de membros.
 
-   ```bash
-   docker build -t gerenciador-membros-app .
-   docker run -p 8080:8080 gerenciador-membros-app
-   ```
+```bash
+curl http://localhost:8080/membros
+```
 
-   O aplicativo estará disponível em [http://localhost:8080](http://localhost:8080).
+### POST /membros
+Cria um novo membro.
 
-3. **Documentação da API (Swagger):**
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"name": "John Doe", "description": "Lorem ipsum", "age": 25}' http://localhost:8080/membros
+```
 
-   Acesse a documentação da API em [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html).
+### PUT /membros/{id}
+Atualiza um membro existente.
 
-## Endpoints da API
+```bash
+curl -X PUT -H "Content-Type: application/json" -d '{"name": "Updated Name", "description": "Updated Description", "age": 30}' http://localhost:8080/membros/{id}
+```
 
-### 1. Cadastrar Membro
+### DELETE /membros/{id}
+Exclui um membro pelo ID.
 
-- **Endpoint:** `POST /membros`
-- **Payload de Exemplo:**
-  ```json
-  {
-    "name": "John Doe",
-    "description": "Membro ativo",
-    "age": 25
-  }
-  ```
+```bash
+curl -X DELETE http://localhost:8080/membros/{id}
+```
 
-### 2. Listar Membros
+## Testes
+Os testes unitários são fornecidos para garantir a funcionalidade correta da aplicação. Execute os seguintes comandos para executar os testes:
 
-- **Endpoint:** `GET /membros`
-
-### 3. Atualizar Membro
-
-- **Endpoint:** `PUT /membros/{id}`
-- **Payload de Exemplo:**
-  ```json
-  {
-    "name": "John Doe Jr.",
-    "description": "Membro ativo e engajado",
-    "age": 26
-  }
-  ```
-
-### 4. Excluir Membro
-
-- **Endpoint:** `DELETE /membros/{id}`
+```bash
+./gradlew test
+```
 
 ## Contribuindo
+Contribuições são bem-vindas! Se você encontrar problemas ou tiver sugestões, abra uma issue ou envie um pull request.
 
-Sinta-se à vontade para contribuir para este projeto abrindo problemas ou enviando pull requests. Sua colaboração é bem-vinda!
-
-## Licença
-
-Este projeto é distribuído sob a licença [MIT](LICENSE). Veja o arquivo [LICENSE](LICENSE) para obter mais detalhes.
-
----
+```
