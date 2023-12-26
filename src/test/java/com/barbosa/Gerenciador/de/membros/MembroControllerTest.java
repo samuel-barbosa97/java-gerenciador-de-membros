@@ -10,10 +10,16 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,7 +43,14 @@ class MembroControllerTest {
 
     @Test
     void saveMembro() throws Exception {
-        mockMvc = MockMvcBuilders.standaloneSetup(membroController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(membroController)
+                .setControllerAdvice(new ResponseEntityExceptionHandler() {
+                    @Override
+                    protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+                        return super.handleHttpRequestMethodNotSupported(ex, headers, status, request);
+                    }
+                }) // Adicione o ControllerAdvice com tratamento de exceção
+                .build();
 
         Membro membroToSave = new Membro();
 
@@ -47,10 +60,10 @@ class MembroControllerTest {
 
         when(membroService.saveMembro(any(Membro.class))).thenReturn(membroToSave);
 
-        ResultActions result = mockMvc.perform(post("/membros")
+        mockMvc.perform(post("/membros")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(membroJson))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.name").value(membroToSave.getName()))
                 .andExpect(jsonPath("$.description").value(membroToSave.getDescription()))
@@ -120,7 +133,8 @@ class MembroControllerTest {
 
         // Realiza a requisição DELETE e verifica o resultado
         ResultActions result = mockMvc.perform(delete("/membros/{id}", memberId))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent())
+                .andExpect(content().string("")); // Verifica se o corpo da resposta está vazio
 
         // Verifica se o serviço foi chamado com o ID correto
         verify(membroService).deleteMembro(memberId);
