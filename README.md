@@ -1,6 +1,4 @@
-Claro! Vamos atualizar o README com as últimas informações:
 
-```markdown
 # Gerenciador de Membros API
 
 ## Descrição
