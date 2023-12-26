@@ -29,4 +29,9 @@ public class MembroController {
     public Membro updateMembro(@RequestBody UpdateMembro updateMembro, @PathVariable("id") String id) throws Exception {
         return membroService.updateMembro(updateMembro, id);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteMembro(@PathVariable("id") String id) {
+        membroService.deleteMembro(id);
+    }
 }

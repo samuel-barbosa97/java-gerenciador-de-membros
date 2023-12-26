@@ -30,4 +30,8 @@ public class MembroService {
         membroToBeUpdated.setAge(updateMembro.getAge());
         return membroRepository.save(membroToBeUpdated);
     }
+
+    public void deleteMembro(String id) {
+        membroRepository.deleteById(id);
+    }
 }
