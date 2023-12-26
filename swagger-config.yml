@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: Gerenciador-de-membros
+
+server:
+  port: 8080
+
+swagger:
+  ui:
+    enabled: true
+
+  resources:
+    enabled: true
+
+  springfox:
+    documentation:
+      swagger-ui:
+        enabled: true
+
+    swagger:
+      ui:
+        enabled: true
+
+      version: 2.0
+
+      title: Gerenciador de Membros API
+      description: APIs para gerenciamento de membros
+      terms-of-service-url: https://seu-site.com/termos-de-servico
+      contact:
+        name: Equipe de Desenvolvimento
+        email: desenvolvimento@seu-site.com
+      license:
+        name: Licença de Uso
+        url: https://seu-site.com/licenca
+
+      schemes:
+        - http
+        - https
+
+      base-package: com.barbosa.Gerenciador.de.membros.controller
