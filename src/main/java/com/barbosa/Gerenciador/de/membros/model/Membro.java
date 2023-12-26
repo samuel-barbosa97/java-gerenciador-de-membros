@@ -18,4 +18,10 @@ public class Membro {
     private String name;
     private String description;
     private Integer age;
+
+    public Membro(String name, String description, Integer age) {
+        this.name = name;
+        this.description = description;
+        this.age = age;
+    }
 }

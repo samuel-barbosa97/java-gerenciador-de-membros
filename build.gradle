@@ -29,6 +29,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 
 }
 

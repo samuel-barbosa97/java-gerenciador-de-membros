@@ -3,6 +3,7 @@ package com.barbosa.Gerenciador.de.membros.controller;
 import com.barbosa.Gerenciador.de.membros.model.Membro;
 import com.barbosa.Gerenciador.de.membros.model.UpdateMembro;
 import com.barbosa.Gerenciador.de.membros.service.MembroService;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/membros")
+@Api(tags = "Membros", description = "Operações relacionadas a membros")
 @AllArgsConstructor
 public class MembroController {
 
