@@ -5,6 +5,8 @@ import com.barbosa.Gerenciador.de.membros.repository.MembroRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class MembroService {
@@ -13,5 +15,9 @@ public class MembroService {
 
     public Membro saveMembro(Membro membro) {
         return membroRepository.save(membro);
+    }
+
+    public List<Membro> listarMembros() {
+        return membroRepository.findAll();
     }
 }
