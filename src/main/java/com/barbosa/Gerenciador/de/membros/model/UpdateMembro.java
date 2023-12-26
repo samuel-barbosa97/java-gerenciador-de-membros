@@ -4,17 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "membros")
-public class Membro {
-    @Id
-    private String id;
+@NoArgsConstructor
+public class UpdateMembro {
     private String name;
     private String description;
     private Integer age;
