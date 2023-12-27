@@ -27,20 +27,15 @@ public class MembroController {
     @PostMapping
     public ResponseEntity<Membro> saveMembro(@RequestBody Membro membro) {
         logger.info("Recebendo solicitação para salvar membro: {}", membro);
-
         Membro savedMembro = membroService.saveMembro(membro);
-
         logger.info("Membro salvo com sucesso: {}", savedMembro);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(savedMembro);
     }
 
     @GetMapping
     public ResponseEntity<List<Membro>> listMembros() {
         logger.info("Recebendo solicitação para listar membros.");
-
         List<Membro> membros = membroService.listarMembros();
-
         if (membros.isEmpty()) {
             logger.info("Nenhum membro encontrado.");
             return ResponseEntity.noContent().build();
@@ -70,11 +65,8 @@ public class MembroController {
     public ResponseEntity<Membro> updateMembro(@RequestBody UpdateMembro updateMembro, @PathVariable("id") String id) {
         try {
             logger.info("Recebendo solicitação para atualizar membro com ID: {}", id);
-
             Membro updatedMembro = membroService.updateMembro(updateMembro, id);
-
             logger.info("Atualização de membro bem-sucedida. ID: {}, Membro atualizado: {}", id, updatedMembro);
-
             return ResponseEntity.status(HttpStatus.OK).body(updatedMembro);
         } catch (Exception ex) {
             logger.error("Erro ao processar a solicitação de atualização de membro. ID: {}", id, ex);
@@ -86,11 +78,8 @@ public class MembroController {
     public ResponseEntity<Void> deleteMembro(@PathVariable("id") String id) {
         try {
             logger.info("Recebendo solicitação para excluir membro com ID: {}", id);
-
             membroService.deleteMembro(id);
-
             logger.info("Exclusão de membro bem-sucedida. ID: {}", id);
-
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception ex) {
             logger.error("Erro ao processar a solicitação de exclusão de membro. ID: {}", id, ex);
